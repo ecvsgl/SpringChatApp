@@ -52,11 +52,7 @@ window.onload=function(){
     }
     
     function notNullOrEmpty(value){
-        if (value != null && value != ""){
-            return true
-        } else {
-            return false
-        }
+        return (value != null && value != "")
     }
     function clearAllInputFields(){
         context.messageInput.value = ""
