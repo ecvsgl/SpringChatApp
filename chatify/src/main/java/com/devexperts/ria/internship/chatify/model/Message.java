@@ -5,13 +5,12 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "message_entity")
+@Table(name = "messages")
 public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
+    private Long messageId;
 
     @Column(name="username")
     private String username;
@@ -32,11 +31,11 @@ public class Message {
     }
 
     public Long getId() {
-        return id;
+        return messageId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.messageId = id;
     }
 
     public String getUsername() {
@@ -66,7 +65,7 @@ public class Message {
     @Override
     public String toString() {
         return "Message{" +
-                "id=" + id +
+                "messageId=" + messageId +
                 ", username='" + username + '\'' +
                 ", message='" + message + '\'' +
                 ", date=" + date +
