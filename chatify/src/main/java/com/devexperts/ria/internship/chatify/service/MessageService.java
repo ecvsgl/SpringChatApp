@@ -23,24 +23,23 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public ResponseEntity<String> postMessage(MessageRequest messageRequest) {
+    public void postMessage(MessageRequest messageRequest) {
         if(messageRequest.getUsername() == null || messageRequest.getUsername().isEmpty()){
-            return new ResponseEntity<>("Username cannot be empty.",HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Username cannot be empty.");
         } else if (messageRequest.getMessage() == null || messageRequest.getMessage().isEmpty()){
-            return new ResponseEntity<>("Message cannot be empty.",HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Message cannot be empty.");
         }
         Message newMessage = new Message(messageRequest.getUsername(), messageRequest.getMessage(), LocalDateTime.now());
         messageRepository.save(newMessage);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public ResponseEntity<List<MessageResponse>> getAllMessages () {
+    public List<MessageResponse> getAllMessages () {
         List<Message> allMessages = messageRepository.findAll(Sort.by(Sort.Order.asc("date")));
         List<MessageResponse> responseList = new ArrayList<>();
         for(Message msg: allMessages){
             responseList.add(new MessageResponse(msg.getUsername(),msg.getMessage(),msg.getDate()));
         }
-        return new ResponseEntity<>(responseList,HttpStatus.OK);
+        return responseList;
     }
 }
 

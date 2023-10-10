@@ -19,11 +19,9 @@ public class MessageController {
     }
 
     @PostMapping("/message")
-    public ResponseEntity<String> postMessage(@RequestBody MessageRequest messageRequest){
-        return messageService.postMessage(messageRequest);
-    }
+    public void postMessage(@RequestBody MessageRequest messageRequest){}
     @GetMapping("/message")
-    public ResponseEntity<List<MessageResponse>> getAllMessages(){
+    public List<MessageResponse> getAllMessages(){
         return messageService.getAllMessages();
     }
 }
