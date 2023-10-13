@@ -22,6 +22,7 @@ public class TokenService {
         String scope = auth.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
+        System.out.println(scope);
         JwtClaimsSet claimsSet = JwtClaimsSet.builder()
                 .issuer("chatifyBE")
                 .issuedAt(Instant.now())

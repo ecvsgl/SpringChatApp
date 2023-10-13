@@ -25,14 +25,14 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public void postMessage(MessageRequest messageRequest) {
+    public Message postMessage(MessageRequest messageRequest) {
         if(messageRequest.getUsername() == null || messageRequest.getUsername().isEmpty()){
             throw new IllegalArgumentException("Username cannot be empty.");
         } else if (messageRequest.getMessage() == null || messageRequest.getMessage().isEmpty()){
             throw new IllegalArgumentException("Message cannot be empty.");
         }
         Message newMessage = new Message(messageRequest.getUsername(), messageRequest.getMessage(), LocalDateTime.now());
-        messageRepository.save(newMessage);
+        return messageRepository.save(newMessage);
     }
 
     public List<MessageResponse> getAllMessages () {

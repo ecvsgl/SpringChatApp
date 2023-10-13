@@ -1,5 +1,6 @@
 package com.devexperts.ria.internship.chatify.controller;
 
+import com.devexperts.ria.internship.chatify.model.Message;
 import com.devexperts.ria.internship.chatify.model.dto.MessageRequest;
 import com.devexperts.ria.internship.chatify.model.dto.MessageResponse;
 import com.devexperts.ria.internship.chatify.service.MessageService;
@@ -20,7 +21,9 @@ public class MessageController {
     }
 
     @PostMapping()
-    public void postMessage(@RequestBody MessageRequest messageRequest){}
+    public Message postMessage(@RequestBody MessageRequest messageRequest){
+        return messageService.postMessage(messageRequest);
+    }
     @GetMapping()
     public List<MessageResponse> getAllMessages(){
         return messageService.getAllMessages();

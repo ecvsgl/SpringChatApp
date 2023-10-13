@@ -14,7 +14,7 @@ public class KeyGeneratorUtility {
             keyPair = keyPairGenerator.generateKeyPair();
 
         } catch (Exception e){
-            throw new IllegalStateException(e.getMessage());
+            throw new IllegalStateException("Keypair generation failed.");
         }
         return keyPair;
     }
