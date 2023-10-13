@@ -54,15 +54,11 @@ public class AuthenticationService {
         return "User: " + userRequest.getUsername() + " is successfully created.";
     }
 
-    public String loginUser(UserRequest userRequest){
-         try{
-             Authentication authentication = authenticationManager.authenticate(
-                     new UsernamePasswordAuthenticationToken(userRequest.getUsername(),userRequest.getPassword())
-             );
-             return tokenService.generateJwt(authentication);
-         }catch (AuthenticationException e){
-            return "Invalid Login";
-         }
+    public String loginUser(UserRequest userRequest) throws AuthenticationException{
+         Authentication authentication = authenticationManager.authenticate(
+                 new UsernamePasswordAuthenticationToken(userRequest.getUsername(),userRequest.getPassword())
+         );
+         return tokenService.generateJwt(authentication);
     }
 
     private boolean isRequestNotEligible(UserRequest userRequest){
