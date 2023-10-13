@@ -7,6 +7,10 @@ import com.devexperts.ria.internship.chatify.repository.RoleRepository;
 import com.devexperts.ria.internship.chatify.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +29,18 @@ public class AuthenticationService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private TokenService tokenService;
+
     public String registerUser(UserRequest userRequest){
         if(isRequestNotEligible(userRequest)){
             throw new IllegalArgumentException("Username or password cannot be empty or consist of whitespace only");
+        }
+        if (userRepository.findByUsername(userRequest.getUsername()).isPresent()){
+            throw new IllegalArgumentException("Please provide another username");
         }
         if(roleRepository.findByAuthority("USER").isEmpty()){
             roleRepository.save(new Role("USER"));
@@ -35,15 +48,21 @@ public class AuthenticationService {
         Set<Role> authorities = new HashSet<>();
         authorities.add(roleRepository.findByAuthority("USER").get());
         userRepository.save(new User(
-                0L,
                 userRequest.getUsername(),
                 passwordEncoder.encode(userRequest.getPassword()),
                 authorities));
-        return userRequest.getUsername();
+        return "User: " + userRequest.getUsername() + " is successfully created.";
     }
 
     public String loginUser(UserRequest userRequest){
-        return "ok";
+         try{
+             Authentication authentication = authenticationManager.authenticate(
+                     new UsernamePasswordAuthenticationToken(userRequest.getUsername(),userRequest.getPassword())
+             );
+             return tokenService.generateJwt(authentication);
+         }catch (AuthenticationException e){
+            return "Invalid Login";
+         }
     }
 
     private boolean isRequestNotEligible(UserRequest userRequest){

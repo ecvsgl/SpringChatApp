@@ -16,6 +16,11 @@ public class RestErrorHandler {
         return new ResponseEntity<>(getChatifyExceptionTemplate(HttpStatus.BAD_REQUEST, e.getMessage()),HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler({RuntimeException.class})
+    public ResponseEntity<ChatifyExceptionTemplate> handleException(RuntimeException e){
+        return new ResponseEntity<>(getChatifyExceptionTemplate(HttpStatus.BAD_REQUEST, e.getMessage()),HttpStatus.BAD_REQUEST);
+    }
+
     private ChatifyExceptionTemplate getChatifyExceptionTemplate(HttpStatus status, String msg){
         return new ChatifyExceptionTemplate(status.value(),msg,LocalDateTime.now());
     }

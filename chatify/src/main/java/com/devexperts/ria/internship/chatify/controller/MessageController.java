@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/message")
 @CrossOrigin("*")
 public class MessageController {
 
@@ -18,9 +19,9 @@ public class MessageController {
         this.messageService = messageService;
     }
 
-    @PostMapping("/message")
+    @PostMapping()
     public void postMessage(@RequestBody MessageRequest messageRequest){}
-    @GetMapping("/message")
+    @GetMapping()
     public List<MessageResponse> getAllMessages(){
         return messageService.getAllMessages();
     }

@@ -22,6 +22,4 @@ public class AuthenticationController {
     public String loginUser(@RequestBody UserRequest userRequest){
         return authenticationService.loginUser(userRequest);
     }
-
-
 }

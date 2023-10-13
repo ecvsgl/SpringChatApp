@@ -4,6 +4,7 @@ import com.devexperts.ria.internship.chatify.model.Message;
 import com.devexperts.ria.internship.chatify.model.dto.MessageRequest;
 import com.devexperts.ria.internship.chatify.model.dto.MessageResponse;
 import com.devexperts.ria.internship.chatify.repository.MessageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,8 @@ import java.util.List;
 @Service
 public class MessageService {
 
-    private final MessageRepository messageRepository;
+    @Autowired
+    private MessageRepository messageRepository;
 
     public MessageService(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;

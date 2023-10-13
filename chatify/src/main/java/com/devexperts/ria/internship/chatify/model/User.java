@@ -33,8 +33,7 @@ public class User implements UserDetails {
         this.authorities = new HashSet<Role>();
     }
 
-    public User(Long userId, String username, String password, Set<Role> authorities) {
-        this.userId = userId;
+    public User(String username, String password, Set<Role> authorities) {
         this.username = username;
         this.password = password;
         this.authorities = authorities;

@@ -7,6 +7,7 @@ public class MessageRequest {
     private String message;
 
     public MessageRequest() {
+
     }
 
     public MessageRequest(String username, String message) {
