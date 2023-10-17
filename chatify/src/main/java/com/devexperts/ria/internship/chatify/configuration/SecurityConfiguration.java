@@ -26,6 +26,12 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 public class SecurityConfiguration  {
@@ -52,13 +58,12 @@ public class SecurityConfiguration  {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity)throws Exception{
           httpSecurity
-                .cors(Customizer.withDefaults())
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/auth/**").permitAll();
-                    auth.requestMatchers("/message").hasAnyRole("USER");
-                    auth.anyRequest().authenticated();
-                });
+                  .cors(Customizer.withDefaults())
+                  .csrf(csrf -> csrf.disable())
+                  .authorizeHttpRequests(auth -> {
+                      auth.requestMatchers("/auth/**").permitAll();
+                      auth.anyRequest().authenticated();
+                  });
           httpSecurity.oauth2ResourceServer()
                   .jwt()
                   .jwtAuthenticationConverter(jwtAuthenticationConverter());
@@ -92,6 +97,15 @@ public class SecurityConfiguration  {
         return jwtAuthenticationConverter;
     }
 
-
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource(){
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://127.0.0.1:5500"));
+        config.setAllowedMethods(List.of("GET","POST"));
+        config.setAllowedHeaders(List.of("Authorization","Content-Type"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**",config);
+        return source;
+    }
 
 }

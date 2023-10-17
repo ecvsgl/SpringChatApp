@@ -1,48 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatify - An Internship Task</title>
-    <script src='auth.js'></script>
-
+    <script src='message.js'></script>
 </head>
 <style>
-    #headline {
+    #headline{
         text-align: center;
         padding: 10px;
     }
-    #container {
+    #chatbox{
+        padding: 10px;
+    }
+    #container{
         border: 5px solid;
         margin: auto;
         width: 50%;
-        padding: 10px;
+        padding: 10px;   
     }
-    #authenticator {
-        margin: auto;
-        width: 50%;
+    #msg_display{
+        width: 95%;
+        height: 250px;
+        border: 1px solid black;
         padding: 10px;
+        overflow-y: auto;
     }
-    input{
-        width: 100%;
+    #message_input{
+        width: 95%;
+        height: 250px;
+        padding: 10px;
+
     }
 </style>
-
 <body>
     <div id="container">
         <div id="headline">
             <h1>Welcome to Chatify!</h1>
-            <p>Please enter your username and password to login or register.</p>
+            <p>Please enter a username and message to send.</p>
         </div>
-        <div id="authenticator">
+        <div id="chatbox">
+            <div id="msg_display"></div>
+            <br>
             <span><input type="text" id="username_input" placeholder="Username"></span>
             <br>
-            <span><input type="text" id="password_input" placeholder="Password"></span>
+            <textarea id="message_input" placeholder="Type message here..."></textarea>
             <br>
-            <span id="buttons"><button id="login_button">Login</button><button id="register_button">Register</button></span>
+            <button id="send_button">Send Message</button>
         </div>
     </div>
 </body>
-
 </html>

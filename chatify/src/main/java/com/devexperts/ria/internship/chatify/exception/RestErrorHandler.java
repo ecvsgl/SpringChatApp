@@ -24,7 +24,7 @@ public class RestErrorHandler {
 
     @ExceptionHandler({AuthenticationException.class})
     public ResponseEntity<ChatifyExceptionTemplate> handleException(AuthenticationException e){
-        return new ResponseEntity<>(getChatifyExceptionTemplate(HttpStatus.FORBIDDEN, e.getMessage()),HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(getChatifyExceptionTemplate(HttpStatus.UNAUTHORIZED, e.getMessage()),HttpStatus.UNAUTHORIZED);
     }
 
     private ChatifyExceptionTemplate getChatifyExceptionTemplate(HttpStatus status, String msg){

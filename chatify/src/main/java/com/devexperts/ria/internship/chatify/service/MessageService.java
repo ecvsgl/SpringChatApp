@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MessageService {
@@ -26,22 +27,22 @@ public class MessageService {
     }
 
     public Message postMessage(MessageRequest messageRequest) {
-        if(messageRequest.getUsername() == null || messageRequest.getUsername().isEmpty()){
-            throw new IllegalArgumentException("Username cannot be empty.");
-        } else if (messageRequest.getMessage() == null || messageRequest.getMessage().isEmpty()){
-            throw new IllegalArgumentException("Message cannot be empty.");
+        if(isNullOrEmpty(messageRequest.getUsername()) || isNullOrEmpty(messageRequest.getMessage())){
+            throw new IllegalArgumentException("Username or Message cannot be empty.");
         }
-        Message newMessage = new Message(messageRequest.getUsername(), messageRequest.getMessage(), LocalDateTime.now());
-        return messageRepository.save(newMessage);
+        return messageRepository.save(
+                new Message(messageRequest.getUsername(), messageRequest.getMessage(), LocalDateTime.now())
+        );
     }
 
     public List<MessageResponse> getAllMessages () {
         List<Message> allMessages = messageRepository.findAll(Sort.by(Sort.Order.asc("date")));
-        List<MessageResponse> responseList = new ArrayList<>();
-        for(Message msg: allMessages){
-            responseList.add(new MessageResponse(msg.getUsername(),msg.getMessage(),msg.getDate()));
-        }
-        return responseList;
+        return allMessages.stream()
+                .map(x -> new MessageResponse(x.getUsername(),x.getMessage(),x.getDate()))
+                .collect(Collectors.toList());
+    }
+    private boolean isNullOrEmpty(String str){
+        return (str == null || str.isEmpty());
     }
 }
 

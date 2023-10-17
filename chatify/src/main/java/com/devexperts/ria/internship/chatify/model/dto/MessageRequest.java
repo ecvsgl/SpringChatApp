@@ -1,5 +1,7 @@
 package com.devexperts.ria.internship.chatify.model.dto;
 
+import jakarta.persistence.Column;
+
 public class MessageRequest {
 
     private String username;
